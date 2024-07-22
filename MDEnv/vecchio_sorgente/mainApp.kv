@@ -1,0 +1,222 @@
+<RoundedButton@Button>
+    background_color: (0, 0, 0, 0)
+    background_normal: ''
+    canvas.before:
+        Color:
+            rgba: (75/255, 75/255, 75/255, 1)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [60]
+
+<Button>:
+    size_hint_y: None
+    height: '80dp'
+
+<MyGrid>:
+
+    temperature_label: temperature_label
+    humidity_label: humidity_label
+    pump_state_label: pump_state_label
+    pump_icon: pump_icon
+    pump_duration_label: pump_duration_label
+    pause_duration_label: pause_duration_label
+    temperature_bar: temperature_bar
+    humidity_bar: humidity_bar
+
+    ScrollView:
+        size_hint: (1, 1)
+        do_scroll_x: False
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: self.minimum_height
+            padding: '10dp'
+            spacing: '20dp'
+
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                padding: '10dp'
+                spacing: '20dp'
+                
+                Label:
+                    id: temperature_label
+                    text: 'Temperatura: -- °C'
+                    size_hint_y: None
+                    height: '30dp'
+                ProgressBar:
+                    id: temperature_bar
+                    max: 60
+                    value: 50
+                    size_hint_y: None
+                    height: '30dp'
+
+                Label:
+                    id: humidity_label
+                    text: 'Umidità: -- %'
+                    size_hint_y: None
+                    height: '30dp'
+                ProgressBar:
+                    id: humidity_bar
+                    max: 100
+                    value: 75
+                    size_hint_y: None
+                    height: '30dp'
+
+                Label:
+                    text: 'PH: --'
+                    size_hint_y: None
+                    height: '30dp'
+                ProgressBar:
+                    max: 14
+                    value: 6.5
+                    size_hint_y: None
+                    height: '30dp'
+
+                Label:
+                    id: pump_state_label
+                    text: 'Stato Pompa:'
+                    size_hint_y: None
+                    height: '30dp'
+                Image:
+                    id: pump_icon
+                    source: 'red_circle.png'
+                    size_hint: None, None
+                    size: '100dp', '100dp'
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5} 
+
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                padding: '10dp'
+                spacing: '20dp'
+
+                Label:
+                    id: pump_duration_label
+                    text: 'Durata Pompa: -- min'
+                    size_hint_y: None
+                    height: '30dp'
+                GridLayout:
+                    cols: 2
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: '20dp'
+
+                    RoundedButton:
+                        text: '-1'
+                        on_press: app.decrement_pump_duration(self)
+                    RoundedButton:
+                        text: '+1'
+                        on_press: app.increment_pump_duration(self)
+                    RoundedButton:
+                        text: '-10'
+                        on_press: app.strong_decrement_pump_duration(self)
+                    RoundedButton:
+                        text: '+10'
+                        on_press: app.strong_increment_pump_duration(self)
+
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                padding: '10dp'
+                spacing: '20dp'
+
+                Label:
+                    id: pause_duration_label
+                    text: 'Durata Pausa: -- min'
+                    size_hint_y: None
+                    height: '30dp'
+                GridLayout:
+                    cols: 2
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: '20dp'
+                    
+                    Button:
+                        text: '-1'
+                        on_press: app.decrement_pause_duration(self)
+                    Button:
+                        text: '+1'
+                        on_press: app.increment_pause_duration(self)
+                    Button:
+                        text: '-10'
+                        on_press: app.strong_decrement_pause_duration(self)
+                    Button:
+                        text: '+10'
+                        on_press: app.strong_increment_pause_duration(self)
+
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                padding: '10dp'
+                spacing: '20dp'
+
+                Label:
+                    text: 'QMT Optimization'
+                    size_hint_y: None
+                    height: '30dp'
+
+                GridLayout:
+                    cols: 2
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: '20dp'
+
+                    Button:
+                        id: dropdown_button1
+                        text: root.selected_value1
+                        on_release: root.show_dropdown1(self)
+                        size_hint_y: None
+                        height: '80dp'
+                        size_hint_x: 0.5
+
+                    Button:
+                        id: dropdown_button2
+                        text: root.selected_value2
+                        on_release: root.show_dropdown2(self)
+                        size_hint_y: None
+                        height: '80dp'
+                        size_hint_x: 0.5
+
+                Button:
+                    id: submit_button
+                    text: 'Submit'
+                    size_hint_y: None
+                    height: '80dp'
+                    on_release: root.on_submit()
+
+                Button:
+                    id: restart_button
+                    text: 'Riavvio Forzato'
+                    size_hint_y: None
+                    height: '80dp'
+                    background_normal: ''
+                    background_color: (1, 0, 0, 1) if self.state == 'normal' else (0.8, 0, 0, 1)
+                    on_release: app.force_restart()
+                    disabled: False
+
+                Button:
+                    id: force_start_button
+                    text: 'Avvio Forzato Pompa'
+                    size_hint_y: None
+                    height: '80dp'
+                    background_normal: ''
+                    background_color: (1, 0, 0, 1) if self.state == 'normal' else (0.8, 0, 0, 1)
+                    on_release: app.force_pump_start()
+                    disabled: False
+
+                Button:
+                    id: substrate_button
+                    text: 'Inserimento Substrato o nutrienti'
+                    size_hint_y: None
+                    height: '80dp'
+                    background_normal: ''
+                    background_color: (0, 1, 0, 1) if self.state == 'normal' else (0, 0.8, 0, 1)
+                    on_release: app.set_substrate_mode()
+                                    
