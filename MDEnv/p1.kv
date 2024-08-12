@@ -1,0 +1,31 @@
+WindowManager:
+    FirstScreen:
+        name: 'firstscreen'
+    SecondScreen:
+        name: 'secondscreen'
+
+<FirstScreen>:
+    drop_item: drop_item
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDDropDownItem:
+            id: drop_item
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            text: "Select"
+            on_release: root.menu.open()
+
+        Button:
+            text: "Go to SecondScreen"
+            on_press:
+                app.root.current = "secondscreen"
+
+<SecondScreen>:
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        Button:
+            text: "Go to FirstScreen"
+            on_press:
+                app.root.current = "firstscreen"
