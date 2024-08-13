@@ -1,27 +1,82 @@
-NavigationLayout:
-    MDNavigationDrawer:
-        NavigationDrawerIconButton:
-            text: "Ricerca Wifi"
-            on_release: 
-                screen_manager.current = "screen1"
-        NavigationDrawerIconButton:
-            text: "La mia Torretta"
-            on_release: 
-                screen_manager.current = "screen2"
+ScreenManager:
+    ChangeColorWindow:
+        name: "screen1"
+    ControlWindow:
+        name: "screen2"
+    MainWindow:
+        name: "screen3"
+    SecondWindow:
+        name: "screen4"
 
-    BoxLayout:
-        orientation: 'vertical'
-        MDToolbar:
-            title: "QMT Control App"
-            md_bg_color: app.themes_cls.primary_color
-            left_action_items:[['menu', lambda x: root.toggle_nav_drawer()]] 
-        ScreenManager:
-            id: screen_manager
-            Screen:
-                name:"screen1"
-                MDLabel:
-                    text: "Ricerca Wifi"
-            Screen:
-                name:"screen2"
-                MDLabel:
-                    text: "La mia Torretta"
+<ChangeColorWindow>:
+    id: "screen1"
+    MDScreen:
+        md_bg_color: self.theme_cls.backgroundColor
+
+        MDCard:
+            orientation: 'vertical'
+            padding: ('0dp', '0dp', '0dp', '36dp')
+            size_hint: .5,.5
+            style: "elevated"
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDLabel:
+                text: 'Theme style - {}'.format(app.theme_cls.theme_style)
+                halign: "center"
+                valign: "center"
+                bold: True
+                font_style: "Display"
+                role: "small"
+
+            MDButton:
+                on_release: app.switch_theme_style()
+                pos_hint: {'center_x': .5}
+
+                MDButtonText:
+                    text: "Set Theme"
+
+        MDButton:
+            on_release: app.root.current = "screen3"
+
+<MainWindow>:
+
+    id: "screen3"
+    RelativeLayout:
+        
+        MDTextField:
+            id: mdtext
+            hint_text: "No helper text"
+            pos: (120,120)
+            
+        MDLabel:
+            id: mdlabel
+            text: "No helper text"
+            pos: (0,120)
+                        
+        MDButton:
+            id: mdbu
+            text: "Invia"
+            on_press: app.fun()
+            pos: (0, 10)
+                
+        MDButton:
+            id: mdbu_cambia1
+            text: "Order"
+            on_press: app.root.current = "screen2"
+            pos: (250, 10)      
+        
+<SecondWindow>:
+
+    id: "screen4"
+    RelativeLayout:
+
+        MDTextField:
+            id: testo_2
+            hint_text: "Testo2"
+            pos: (10,150)
+        
+        MDButton:
+            id: mdbu_cambia
+            text: "Back"
+            on_press: app.root.current = "screen1"
+            pos: (250, 10)

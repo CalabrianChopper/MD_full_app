@@ -1,0 +1,27 @@
+NavigationLayout:
+    MDNavigationDrawer:
+        NavigationDrawerIconButton:
+            text: "Ricerca Wifi"
+            on_release: 
+                screen_manager.current = "screen1"
+        NavigationDrawerIconButton:
+            text: "La mia Torretta"
+            on_release: 
+                screen_manager.current = "screen2"
+
+    BoxLayout:
+        orientation: 'vertical'
+        MDToolbar:
+            title: "QMT Control App"
+            md_bg_color: app.themes_cls.primary_color
+            left_action_items:[['menu', lambda x: root.toggle_nav_drawer()]] 
+        ScreenManager:
+            id: screen_manager
+            Screen:
+                name:"screen1"
+                MDLabel:
+                    text: "Ricerca Wifi"
+            Screen:
+                name:"screen2"
+                MDLabel:
+                    text: "La mia Torretta"
